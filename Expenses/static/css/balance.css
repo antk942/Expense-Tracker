@@ -1,0 +1,32 @@
+/* css/balance.css */
+
+.balance-container {
+    padding: 20px;
+}
+
+.balance-table-container {
+    margin-top: 20px;
+}
+
+.balance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.balance-table th, .balance-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.positive-balance {
+    color: green;
+}
+
+.negative-balance {
+    color: red;
+}
+
+.zero-balance {
+    color: gray;
+}

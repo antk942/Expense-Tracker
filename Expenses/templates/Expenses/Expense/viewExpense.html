@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Expense Details{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/expenseInfo.css' %}">
+    <div class="expense-info-container">
+        <div class="expense-info">
+            <h2>Expense Details</h2>
+            <p><strong>Date:</strong> {{ expense.date }}</p>
+            <p><strong>Category:</strong> {{ expense.category.name }}</p>
+            <p><strong>Amount:</strong> {{ expense.amount }}{{ expense.currency }}</p>
+            <p><strong>Description:</strong> <span style="white-space: normal; word-wrap: break-word;">{{ expense.description }}</span></p>
+            <p><strong>Paid By:</strong> {{ expense.get_who_paid_display }}</p>
+            <p><strong>Paid for:</strong> {{ expense.get_split_with_display }}</p>
+            <p><strong>Is the expense resolved:</strong> {{ expense.get_is_paid_display }}</p>
+            <a href="{% url 'viewCategory' expense.category.id %}" class="custom-button button-start"> <i class="fas fa-arrow-left"></i> Go back</a>
+            <a href="{% url 'editExpense' expense.id %}" class="custom-button"> <i class="fas fa-edit"></i> Edit</a>
+            <a href="{% url 'deleteExpense' expense.id %}" class="custom-button delete-button" style="background-color: red;">Delete</a>
+        </div>
+    </div>
+{% endblock %}

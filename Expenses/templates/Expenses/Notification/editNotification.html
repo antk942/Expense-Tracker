@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Notification{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}">
+<div class="form-container">
+    <h2 class="form-title">Edit Notification</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.message.label_tag }} {{ form.message }}
+        </div>
+        <div class="form-group">
+            {{ form.amount.label_tag }} {{ form.amount }}
+        </div>
+        <div class="form-group">
+            {{ form.amount.label_tag }} {{ form.currency }}
+        </div>
+        <div class="form-group">
+            {{ form.bill.label_tag }} {{ form.bill }}
+        </div>
+        <div class="form-group">
+            {{ form.category.label_tag }} {{ form.category }}
+        </div>
+        <div class="form-group">
+            {{ form.dueDate.label_tag }} {{ form.dueDate }}
+        </div>
+        <div class="form-group">
+            {{ form.frequency.label_tag }} {{ form.frequency }}
+        </div>
+        <div class="form-group is-paid-group">
+            <label for="{{ form.isResolved.id_for_label }}">{{ form.isResolved.label }}</label>
+            {{ form.isResolved }}
+        </div>
+        <div class="button-container">
+            <a href="{% url 'viewNotification' %}" class="custom-button button-start">Cancel</a>
+            <button type="submit" class="custom-button">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

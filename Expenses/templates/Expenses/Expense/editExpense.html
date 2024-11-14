@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Expense{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <div class="form-container">
+        <h2 class="form-title">Edit Expense</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.category.label_tag }} {{ form.category }}
+            </div>
+            <div class="form-group">
+                {{ form.amount.label_tag }} {{ form.amount }}
+            </div>
+            <div class="form-group">
+                {{ form.amount.label_tag }} {{ form.currency }}
+            </div>
+            <div class="form-group">
+                {{ form.date.label_tag }} {{ form.date }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label_tag }} {{ form.description }}
+            </div>
+            <div class="form-group">
+                {{ form.whoPaid.label_tag }} {{ form.whoPaid }}
+            </div>
+            <div class="form-group checkbox-group">
+                {{ form.splitWith.label_tag }}
+                <div>
+                    {% for checkbox in form.splitWith %}
+                        <div class="checkbox-item">
+                            <label>{{ checkbox.choice_label }}</label>
+                            {{ checkbox.tag }} 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group is-paid-group">
+                <label for="{{ form.isPaid.id_for_label }}">Is the expense resolved:</label>
+                {{ form.isPaid }}
+            </div>
+            <div class="button-container">
+                <a href="javascript:history.back()" class="custom-button button-start">Cancel</a>
+                <button type="submit" class="custom-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

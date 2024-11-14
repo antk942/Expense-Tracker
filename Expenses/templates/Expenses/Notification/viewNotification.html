@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/viewCategory.css' %}">
+
+<div class="index-container">
+    <h1>Notifications</h1>
+    <div class="index-button-container">
+        <a href="{% url 'expenses' %}" class="index-custom-button"> <i class="fas fa-arrow-left"></i> Back to expenses</a>
+        <a href="{% url 'addNotification' %}?next={% url 'viewNotification' %}" class="index-custom-button"> <i class="fas fa-plus"></i> Add Notification</a>
+    </div>
+
+    <div class="categories-container">
+        {% for notification in notifications %}
+            <div class="category-box">
+                <h2><a href="{% url 'viewSingleNotification' notification.id %}">{{ notification.message|slice:":15" }}</a></h2>
+                <p>Due date: {{ notification.dueDate }}</p>
+                <p>Amount: {{ notification.amount }}{{ notification.currency }}</p>
+                <p>RF/IBAN: {{ notification.bill }}<p>
+                <a href="{% url 'sendNotification' notification.id %}" class="index-custom-button">
+                    <i class="fas fa-paper-plane"></i> Send Notification
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

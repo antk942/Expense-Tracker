@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Expenses{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <div class="index-container">
+        <h1>Expenses</h1>        
+        <div class="index-button-container">
+            <a href="{% url 'addExpense' %}?next={% url 'expenses' %}" class="index-custom-button"> <i class="fas fa-plus"></i> Add Expense</a>
+            <a href="{% url 'addCategory' %}?next={% url 'expenses' %}" class="index-custom-button"> <i class="fas fa-plus"></i> Add Category</a>
+            <a href="{% url 'viewNotification' %}?next={% url 'expenses' %}" class="index-custom-button">View Notifications</a>
+            <a href="{% url 'balance' %}" class="index-custom-button">Balance</a>
+
+            <!-- Import Expenses Button and Input 
+            <input type="file" id="excel-file" accept=".xlsx, .xls" style="display: none;" />
+            <a href="#" class="index-custom-button" id="import-button"> <i class="fas fa-file-import"></i> Import</a>
+            <div id="import-progress-bar" class="progress" style="display: none; margin-top: 10px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+            </div 
+            <!-- Export Expenses Button 
+            <a href="{% url 'export' %}" class="index-custom-button" id="export-button"> <i class="fas fa-file-export"></i> Export</a>
+            <div id="export-progress-bar" class="progress" style="display: none; margin-top: 10px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+            </div>-->
+            
+        </div>      
+        <div class="categories-container">
+            {% for category in categories %}
+                <div class="category-box">
+                    <h2><a href="{% url 'viewCategory' category.id %}">{{ category.name }}</a></h2>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Graphs Section -->
+        <div class="graphs-container">
+            <div class="monthly-graph">
+                <h2>Monthly Expenses: <span id="monthly-total" class="blurred"></span> € <i id="toggle-monthly-total" class="fas fa-eye"></i></h2>  
+                <select id="month-select">
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <select id="year-select-monthly">
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+            <div class="yearly-graph">
+                <h2>Yearly Expenses: <span id="yearly-total" class="blurred"></span> € <i id="toggle-yearly-total" class="fas fa-eye"></i></h2>           
+                <select id="year-select">
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <canvas id="yearlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/expensesCharts.js' %}"></script>
+    <script>
+        // Set up CSRF token and URLs for JavaScript
+        const csrfToken = "{{ csrf_token }}";
+        const importUrl = "{% url 'import' %}";
+        const exportUrl = "{% url 'export' %}";
+    </script>
+    <script src="{% static 'js/expenses.js' %}"></script>
+{% endblock %}

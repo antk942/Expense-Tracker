@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  expensetracker:
+    build: .
+    volumes:
+      - /opt/ExpenseTracker/logs:/app/logs
+      - /opt/ExpenseTracker/db/db.sqlite3:/app/db.sqlite3
+      - /opt/ExpenseTracker/Archives/Notifications:/app/Archives/Notifications
+    ports:
+      - "8000:8000"

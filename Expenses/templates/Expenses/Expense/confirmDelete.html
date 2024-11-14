@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+</head>
+<body>
+    <h1>Are you sure you want to delete this expense?</h1>
+    <div class="expense-info-container">
+        <div class="expense-info">
+            <p>{{ expense.date }} - {{ expense.category.name }}: {{ expense.amount }}{{ expense.currency }} ({{ expense.description }})</p>
+        </div>
+    </div>
+    <form method="POST" action="{% url 'deleteExpense' expense.id %}">
+        {% csrf_token %}
+        <button type="submit" class="custom-button button-start">Yes, delete it</button>
+        <br>
+        <a href="{% url 'viewCategory' expense.category.id %}" class="custom-button button-start">Cancel</a>
+    </form>
+{% endblock %}

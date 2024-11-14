@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Expenses{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viewCategory.css' %}">
+    
+    <div class="index-container">
+        <h1>{{ category.name }} Expenses</h1>
+        <div class="index-button-container">
+            <a href="{% url 'expenses' %}" class="index-custom-button"> <i class="fas fa-arrow-left"></i> Back to expenses</a>
+            <a href="{% url 'editCategory' category.id %}" class="index-custom-button"> <i class="fas fa-edit"></i> Edit Category</a>
+            <a href="{% url 'addExpense' %}?next={% url 'viewCategory' category.id %}&category_id={{ category.id }}" class="index-custom-button"> <i class="fas fa-plus"></i> Add Expense</a>
+            <input type="hidden" id="category-name" value="{{ category.name }}">
+            <button onclick="downloadImage()" class="index-custom-button"> <i class="fas fa-file-image"></i> Generate Report</button>
+            <input type="hidden" id="selected_year" value="{{ selected_year }}">
+            <label for="year-select" class="year-select-label">Year:</label>
+            <select id="year-select" class="year-select"></select>
+        </div>  
+        
+        
+
+        <!-- Monthly Expenses Container -->
+        <div class="monthly-expenses-container">
+            {% for month, expenses in monthly_expenses_items %}
+                <div class="month-column">
+                    <h2> <i class="fas fa-calendar-alt"></i> {{ month }} </h2>
+                    <div class="expenses-list">
+                        {% if expenses %}
+                            {% for expense in expenses %}
+                                <div class="expense-item">
+                                    <a href="{% url 'viewExpense' expense.id %}" style="text-align: center;" class="expense-link"> <i class="fas fa-money-bill-wave"></i>
+                                        <span>{{ expense.amount }}{{ expense.currency }}: {{ expense.description|slice:":15" }}</span>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No expenses this month</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearSelect = document.getElementById('year-select');
+            const currentYear = new Date().getFullYear();
+            const selectedYear = document.getElementById('selected_year').value;
+
+            for (let year = currentYear; year >= currentYear - 10; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                yearSelect.appendChild(option);
+            }
+            yearSelect.value = selectedYear;
+
+            yearSelect.addEventListener('change', function() {
+                const selectedYear = yearSelect.value;
+                const url = new URL(window.location.href);
+                url.searchParams.set('year', selectedYear);
+                window.location.href = url.toString();
+            });
+        });
+
+        function downloadImage() {
+            const selectedYear = document.getElementById('year-select').value;
+            const url = `{% url 'generateReportImage' category.id %}?year=${selectedYear}`;
+            const link = document.createElement('a');
+            const category = document.getElementById('category-name').value;
+            link.href = url;
+            link.download = `${category}_expenses_${selectedYear}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+{% endblock %}

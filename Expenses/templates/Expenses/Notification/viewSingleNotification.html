@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Notification Details{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/expenseInfo.css' %}">
+<div class="expense-info-container">
+    <div class="expense-info">
+        <h2>Notification Details</h2>
+        <p><strong>Message:</strong> {{ notification.message }}</p>
+        <p><strong>Amount:</strong> {{ notification.amount }}{{ notification.currency }}</p>
+        <p><strong>RF/IBAN:</strong> {{ notification.bill }}</p>
+        <p><strong>Category:</strong> {{ notification.category.name }}</p>
+        <p><strong>Due date:</strong> {{ notification.dueDate }}</p>
+        <p><strong>Frequency:</strong> {{ notification.frequency }}</p>
+        <a href="{% url 'viewNotification' %}" class="custom-button button-start"> <i class="fas fa-arrow-left"></i> Go back</a>
+        <a href="{% url 'editNotification' notification.id %}" class="custom-button"> <i class="fas fa-edit"></i> Edit</a>
+        <a href="{% url 'deleteNotification' notification.id %}" class="custom-button delete-button" style="background-color: red;">Delete</a>
+    </div>
+</div>
+{% endblock %}

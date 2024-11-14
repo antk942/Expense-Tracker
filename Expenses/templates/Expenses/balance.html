@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Balances{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/balance.css' %}">
+<div class="balance-container">
+    <h1>Balances</h1>
+    <div class="balance-table-container">
+        {% if userBalance %}
+            <table class="balance-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user, data in userBalance.items %}
+                    <tr>
+                        <td>{{ user.first_name }}</td>
+                        <td>
+                            {% if data.balance > 0 %}
+                                <span class="positive-balance">{{ user.first_name }} owes you: {{ data.balance|floatformat:2 }} €</span>
+                                <div style="width: 100%; margin: 10px 0;"></div>
+                                <div class="index-button-container">
+                                    <button id="send-reminder-btn" class="custom-button button-start">Send reminder</button>
+                                    <input type="hidden" class="userId" value="{{ user.id }}">
+                                    <button id="mark-paid-btn" class="custom-button button-start" >Mark as Paid</button>
+                            {% elif data.balance < 0 %}
+                                <span class="negative-balance">You owe {{ user.first_name }}: {{ data.abs_balance|floatformat:2 }} €</span>
+                                <input type="hidden" class="userId" value="{{ user.id }}">
+                                <button id="mark-paid-btn" class="custom-button button-start" >Mark as Paid</button>
+                            {% else %}
+                                <span class="zero-balance">Settled</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="index-button-container">
+                <a href="javascript:history.back()" class="custom-button button-start"> <i class="fas fa-arrow-left"></i> Go Back</a>
+            </div>
+        {% else %}
+        <div class="index-button-container">
+            <p style="
+                text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 20px;">All expenses are settled</p>
+            <a href="javascript:history.back()" class="custom-button button-start">Go Back</a>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>
+
+<script src="{% static 'js/balance.js' %}"></script>
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+
+{% endblock %}

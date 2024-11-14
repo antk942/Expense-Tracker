@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Category{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}">
+    <div class="form-container">
+        <h2 class="form-title">Edit Category</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.name.label_tag }} 
+                {{ form.name }}
+            </div>
+            <div class="button-container">
+                <a href="{% url 'viewCategory' category.id %}" class="custom-button button-start">Cancel</a>
+                <button type="submit" class="custom-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

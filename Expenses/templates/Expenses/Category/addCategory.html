@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Category{% endblock %}
+
+{% block content %}
+    {% load static %}
+</head>
+<body>
+    <div class="container">
+        <h1>Add Category</h1>
+        <form method="post" enctype="multipart/form-data" action="?next={{ next }}">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+            </div>
+            <div class="button-container">
+                <a href="javascript:history.back()" class="custom-button button-start"> <i class="fas fa-arrow-left"></i> Go Back</a>
+                <button type="submit" class="custom-button button-end">Submit Category</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

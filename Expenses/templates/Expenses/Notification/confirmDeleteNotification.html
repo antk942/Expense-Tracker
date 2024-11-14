@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Delete Notification{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/general.css' %}">
+<link rel="stylesheet" href="{% static 'css/expenseInfo.css' %}">
+<div class="expense-info-container">
+    <div class="expense-info">
+        <h2>Are you sure you want to delete this notification? </h2>
+        <p><strong>Message:</strong> {{ notification.message }}</p>
+        <p><strong>Category:</strong> {{ notification.category.name }}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="custom-button button-start">Yes, delete it</button>
+            <div style="width: 100%; margin: 10px 0;"></div>
+            <a href="{% url 'viewNotification' %}" class="custom-button button-start">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

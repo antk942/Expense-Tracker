@@ -1,0 +1,10 @@
+# ExpenseTracker
+/env
+/venv
+**/__pycache__
+*/staticfiles
+*.sqlite3
+**.pyc
+/logs
+/staticfiles
+**.Identifier
