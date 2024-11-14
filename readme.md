@@ -61,7 +61,7 @@ To set up the app locally, follow these steps:
 
 ```bash
 # Clone the repository
-git clone https://github.com/antk942/ExpenseTracker.git
+git clone https://github.com/antk942/Expense-Tracker.git
 
 # Navigate to the project directory
 cd ExpenseTracker
